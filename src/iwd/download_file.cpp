@@ -15,7 +15,9 @@ progress_callback(
   curl_off_t dlnow,
   curl_off_t ultotal,
   curl_off_t ulnow)
-{}
+{
+  return 0;
+}
 
 } // namespace
 

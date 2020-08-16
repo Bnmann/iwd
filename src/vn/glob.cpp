@@ -1,5 +1,6 @@
 #include <vn/glob.hpp>
 
+#include <functional>
 #include <regex>
 #include <vn/directory.hpp>
 #include <vn/fnmatch.hpp>
@@ -32,19 +33,23 @@ recursive_glob_iterator::recursive_glob_iterator(
   const vn::fnmatch& pattern)
   : _iterator(directory.path())
   , _pattern(pattern)
-{}
+{
+}
 
 recursive_glob_iterator::recursive_glob_iterator()
   : _iterator()
   , _pattern(std::nullopt)
-{}
+{
+}
 
-recursive_glob_iterator::reference recursive_glob_iterator::operator*()
+recursive_glob_iterator::reference
+recursive_glob_iterator::operator*()
 {
   return ref();
 }
 
-recursive_glob_iterator::pointer recursive_glob_iterator::operator->()
+recursive_glob_iterator::pointer
+recursive_glob_iterator::operator->()
 {
   return _iterator.operator->();
 }

@@ -1,11 +1,8 @@
 #ifndef IWD__CMAKE_CONFIGURATION_HPP
 #define IWD__CMAKE_CONFIGURATION_HPP
 
-#include "iwd/quicktype/iwd.hpp"
-
-#include <map>
-#include <memory>
 #include <nlohmann/json.hpp>
+#include <optional>
 #include <string>
 
 namespace iwd {

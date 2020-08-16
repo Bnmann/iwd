@@ -11,7 +11,7 @@ namespace vn {
 struct semantic_version
 {
   semantic_version(
-    std ::size_t major,
+    std::size_t major,
     std::size_t minor,
     std::size_t patch,
     const std::optional<std::string>& pre_release = std::nullopt,

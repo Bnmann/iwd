@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <optional>
+#include <ranges>
 #include <string_view>
 #include <vector>
 #include <vn/directory.hpp>

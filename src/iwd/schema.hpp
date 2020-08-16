@@ -1,4 +1,8 @@
-{
+#ifndef IWD__SCHEMA_HPP_
+#define IWD__SCHEMA_HPP_
+
+namespace iwd {
+constexpr auto kSchema = R"__json__({
     "definitions": {},
     "$schema": "http://json-schema.org/draft-04/schema#",
     "$id": "iwd",
@@ -125,3 +129,8 @@
         "iwd_version"
     ]
 }
+
+)__json__";
+}
+
+#endif

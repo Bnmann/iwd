@@ -6,15 +6,15 @@
 #include "iwd/domain.hpp"
 #include "iwd/download_file.hpp"
 #include "iwd/git_clone.hpp"
+#include "iwd/logging.hpp"
 #include "iwd/parse_args.hpp"
 #include "iwd/requirements.hpp"
+#include "vn/directory.hpp"
 #include <vn/file.hpp>
 #include <vn/string_template.hpp>
 #include <vn/string_utils.hpp>
 
 #include <iostream>
-
-namespace nl = nlohmann;
 
 constexpr auto iwd_cmake_file_template =
   "set(IWD_INSTALL_PREFIX $(INSTALL_PREFIX))\n"
@@ -32,8 +32,17 @@ int
 main(int argc, const char** argv)
 {
   const auto args = iwd::parse_args(argc, argv);
+
+  if (args.clean_first) {
+    auto working_directory =
+      iwd::directories(args.build_directory).working_directory().path();
+    iwd::info("Cleaning iwd directory {}", working_directory.generic_string());
+    std::filesystem::remove_all(working_directory);
+  }
+
   const auto directories = iwd::directories(args.build_directory);
-  const auto domain = iwd::domain(vn::directory(args.build_directory));
+  const auto domain =
+    iwd::domain(vn::directory::current(), vn::directory(args.build_directory));
 
   check_cmake_version(domain.cmake());
 

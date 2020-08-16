@@ -1,0 +1,6 @@
+#ifndef VN__SCHEMA__SCHEMA_TOKENIZER_HPP
+#define VN__SCHEMA__SCHEMA_TOKENIZER_HPP
+
+
+
+#endif

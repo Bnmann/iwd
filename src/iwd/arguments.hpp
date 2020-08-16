@@ -17,6 +17,7 @@ struct arguments
   std::optional<std::string> config;
   std::optional<std::string> generator;
   std::vector<std::string> cmake_arguments;
+  bool clean_first;
 };
 
 } // namespace iwd

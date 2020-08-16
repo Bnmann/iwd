@@ -50,4 +50,11 @@ create_text_file(
   throw std::system_error(vn::errno_as_error_code());
 }
 
+std::pair<std::optional<std::string>, std::error_code>
+try_read_while_file(const std::filesystem::path& file_path) noexcept
+{
+  std::error_code ec{};
+  return std::make_pair(read_whole_file(file_path, ec), ec);
+}
+
 } // namespace vn

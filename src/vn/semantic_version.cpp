@@ -80,7 +80,8 @@ semantic_version::semantic_version(
   , _patch(patch)
   , _pre_release_version(pre_release)
   , _build_metadata(build_meta)
-{}
+{
+}
 
 std::size_t
 semantic_version::major() const noexcept
@@ -117,7 +118,8 @@ semantic_version::compare(const semantic_version& other) const noexcept
     ? (other.pre_release()
          ? semver_compare_pr(*pre_release(), *other.pre_release())
          : -1)
-    : other.pre_release() ? 1 : 0;
+    : other.pre_release() ? 1
+                          : 0;
 }
 
 bool
@@ -177,9 +179,9 @@ semantic_version::try_parse(std::string_view text)
   // TODO - Values outside unsigned long range are valid semver, but this should
   // throw here as unacceptable input for implementation
   if (std::regex_match(text.begin(), text.end(), match, semver_regex)) {
-    const auto major = std::stoul(match[1].str());
-    const auto minor = std::stoul(match[2].str());
-    const auto patch = std::stoul(match[3].str());
+    const auto major = std::stoull(match[1].str());
+    const auto minor = std::stoull(match[2].str());
+    const auto patch = std::stoull(match[3].str());
     std::optional<std::string> pre_release = std::nullopt;
     std::optional<std::string> build_meta = std::nullopt;
     if (match[4].matched) {

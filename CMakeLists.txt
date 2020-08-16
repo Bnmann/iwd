@@ -4,6 +4,7 @@ string(TIMESTAMP DATE_TODAY "21%y%m%d")
 set(PROJECT_VERSION 1.0.${DATE_TODAY})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 20)
 set(THREADS_PREFER_PTHREAD_FLAG On)
 
 project(iwd VERSION ${PROJECT_VERSION})
@@ -12,6 +13,7 @@ include(FetchContent)
 
 set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
 set(CATCH_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+set(JSON_VALIDATOR_INSTALL OFF CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
     get-argparse
@@ -20,7 +22,7 @@ FetchContent_Declare(
 
 FetchContent_Declare(
     get-nlohmann-json
-    URL https://github.com/nlohmann/json/archive/v3.7.3.tar.gz
+    URL https://github.com/nlohmann/json/archive/refs/tags/v3.9.1.tar.gz
 )
 
 FetchContent_Declare(
@@ -30,12 +32,17 @@ FetchContent_Declare(
 
 FetchContent_Declare(
     get-spdlog
-    URL https://github.com/gabime/spdlog/archive/v1.4.2.tar.gz
+    URL https://github.com/gabime/spdlog/archive/refs/tags/v1.8.5.tar.gz
 )
 
 FetchContent_Declare(
     get-catch2
-    URL https://github.com/catchorg/Catch2/archive/v2.11.1.tar.gz
+    URL https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.6.tar.gz
+)
+
+FetchContent_Declare(
+    get-json-schema-validator
+    URL https://github.com/pboettch/json-schema-validator/archive/refs/tags/2.1.0.tar.gz
 )
 
 FetchContent_MakeAvailable(
@@ -43,6 +50,7 @@ FetchContent_MakeAvailable(
     get-nlohmann-json
     get-spdlog
     get-catch2
+    get-json-schema-validator
 )
 
 find_package(LibArchive REQUIRED)
@@ -77,6 +85,15 @@ add_executable(
     src/iwd/parse_args.cpp
     src/iwd/requirements.cpp
     src/iwd/subprocess.cpp
+    src/iwd/git_program.cpp
+    src/iwd/requirement.cpp
+    src/iwd/patch.cpp
+)
+
+target_compile_definitions(
+    iwd
+    PRIVATE
+    IWD_BUILD_LINUX
 )
 
 
@@ -84,7 +101,8 @@ set_target_properties(
     iwd
     vn
     PROPERTIES
-    CXX_STANDARD 17
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED On
 )
 
 target_link_libraries(
@@ -93,6 +111,7 @@ target_link_libraries(
     vn
     argparse
     nlohmann_json
+    nlohmann_json_schema_validator
     ${LibArchive_LIBRARIES}
     Boost::system
     Boost::filesystem
@@ -116,7 +135,7 @@ target_include_directories(
 
 enable_testing()
 include(CTest)
-include(${get-catch2_SOURCE_DIR}/contrib/ParseAndAddCatchTests.cmake)
+include(${get-catch2_SOURCE_DIR}/contrib/Catch.cmake)
 
 add_executable(
     vn-tests
@@ -139,7 +158,14 @@ target_link_libraries(
 set_target_properties(
     vn-tests
     PROPERTIES
-    CXX_STANDARD 17
+    CXX_STANDARD 20
 )
 
-ParseAndAddCatchTests(vn-tests)
+install(
+    TARGETS
+        iwd
+    RUNTIME
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+catch_discover_tests(vn-tests)

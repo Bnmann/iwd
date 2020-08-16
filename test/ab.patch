@@ -1,0 +1,11 @@
+diff -ruN a/data/cmake/CMakeLists.txt b/data/cmake/CMakeLists.txt
+--- a/data/cmake/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/cmake/CMakeLists.txt	2020-03-05 21:35:26.013276330 +0100
+@@ -0,0 +1 @@
++project(cmake)
+diff -ruN a/data/text.txt b/data/text.txt
+--- a/data/text.txt	2020-03-05 21:33:10.299500444 +0100
++++ b/data/text.txt	2020-03-05 21:33:07.392843233 +0100
+@@ -1 +1 @@
+-pies
++kot

@@ -12,6 +12,11 @@ parse_args(int argc, const char** argv)
   iwd::arguments args;
   auto parser = argparse::ArgumentParser();
 
+  parser.add_argument("--clean-first")
+    .help("Remove all of iwd files before running")
+    .default_value(false)
+    .implicit_value(true);
+
   parser.add_argument("-B", "--build-dir")
     .action(
       [&args](const std::string& value) { args.build_directory = value; });
@@ -38,6 +43,7 @@ parse_args(int argc, const char** argv)
     std::cerr << parser;
     exit(0);
   }
+  args.clean_first = parser.get<bool>("--clean-first");
 
   return args;
 }

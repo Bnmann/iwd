@@ -41,7 +41,8 @@ cmake_program::version() const noexcept
 cmake_program::cmake_program(executable exe, vn::semantic_version version)
   : _cmake_executable(exe)
   , _version(version)
-{}
+{
+}
 
 void
 cmake_program::configure(
